@@ -1,0 +1,1742 @@
+<!DOCTYPE html>
+<!-- saved from url=(0054)https://www.shiyanlou.com/courses/49/labs/221/document -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style class="vjs-styles-defaults">
+      .video-js {
+        width: 300px;
+        height: 150px;
+      }
+
+      .vjs-fluid {
+        padding-top: 56.25%
+      }
+    </style>
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="author" content="Lei Shi">
+    <meta http-equiv="Cache-Control" content="o-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+	
+		
+        <title>pygame开发打飞机游戏 - 实验楼</title>
+		
+	
+
+    
+    <meta content="实验楼是国内领先的IT技术实训平台，创新的实验驱动教学模式，以就业为导向，为IT相关专业的在校学生及从业者提供编程、运维、测试、云计算、大数据、数据库等全面的IT技术动手实践环境，提供Linux、Python、Java、C语言、Ruby、Android、IOS开发等热门课程。" name="description">
+    <meta content="实验楼,IT培训,IT教育,编程,在线编程,Linux,Linux教程,Linux操作系统,Python,Python教程,Python基础教程,Java,Java编程,C语言,大数据,Node.js,Hadoop,PHP,Docker" name="keywords">
+    
+    <meta content="实验楼,琛石科技" name="author">
+
+	<link rel="shortcut icon" href="https://static.shiyanlou.com/favicon.ico">
+	<link rel="stylesheet" href="./pygame开发打飞机游戏 - 实验楼_files/font-awesome.min.css">
+    <link rel="stylesheet" href="./pygame开发打飞机游戏 - 实验楼_files/monokai-sublime.min.css">
+    <link rel="stylesheet" href="./pygame开发打飞机游戏 - 实验楼_files/bootstrap.min.css">
+    <link rel="stylesheet" href="./pygame开发打飞机游戏 - 实验楼_files/katex.min.css">
+    <link rel="stylesheet" href="./pygame开发打飞机游戏 - 实验楼_files/video-js.min.css">
+	<link rel="stylesheet" href="./pygame开发打飞机游戏 - 实验楼_files/styles.css">
+
+	<style>
+		@font-face {
+			font-family: "lantingxihei";
+			src: url("https://static.shiyanlou.com/fonts/FZLTCXHJW.TTF");
+		}
+
+        /* modal 模态框*/
+        #invite-user .modal-body {
+            overflow: hidden;
+        }
+		#invite-user .modal-body .form-label {
+			margin-bottom: 16px;
+			font-size:14px;
+		}
+		#invite-user .modal-body .form-invite {
+			width: 80%;
+			padding: 6px 12px;
+			background-color: #eeeeee;
+			border: 1px solid #cccccc;
+			border-radius: 5px;
+			float: left;
+			margin-right: 10px;
+		}
+		#invite-user .modal-body .msg-modal-style {
+			background-color: #7dd383;
+			margin-top: 10px;
+			padding: 6px 0;
+			text-align: center;
+			width: 100%;
+		}
+		#invite-user .modal-body .modal-flash {
+			position: absolute;
+			top: 53px;
+			right: 74px;
+			z-index: 999;
+		}
+		/* end modal */
+
+        .en-footer {
+            padding: 30px;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+	
+<style>
+    #editor {
+        width: 0;
+		height: 0;
+		margin: 0;
+		padding: 0;
+		border: none;
+    }
+    #preview {
+        padding: 20px;
+        background: #fff;
+        border: solid 1px #eee;
+    }
+	#preview p,
+	#preview li,
+	#preview span,
+	#preview div,
+	#preview blockquote,
+	#preview blockquote	p {
+		font-size: 15px;
+        font-weight: 100;
+	}
+	#preview blockquote p {
+		line-height: 1.6em;
+	}
+    .mobile-alert {
+        display: none;
+        margin-top: 10px;
+        font-size: 16px;
+        text-align: center;
+    }
+    .breadcrumb {
+        border-bottom: solid 1px #eee;
+    }
+    @media (max-width: 768px) {
+        .mobile-alert {
+            display: block;
+        }
+        #preview p,
+        #preview li,
+        #preview span,
+        #preview div,
+        #preview blockquote,
+        #preview blockquote	p {
+            font-weight: 500;
+        }
+    }
+    .start-lab {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 10px 0;
+        text-align: center;
+        box-shadow: 0 2px 4px 2px #eee;
+        background: #274a59;
+        z-index: 100;
+    }
+    .start-lab span {
+        position: relative;
+        top: 4px;
+        color: #fff;
+        font-size: 16px;
+    }
+    .start-lab .btn {
+        margin-left: 10px;
+        padding: 6px 50px;
+        background: #0c9;
+        font-size: 18px;
+        border-color: #0c9;
+    }
+    @media (max-width: 768px) {
+        .start-lab .btn {
+            margin-top: 10px;
+        }
+    }
+    .course-warning {
+        margin-top: 10px;
+        text-align: center;
+        font-size: 16px;
+    }
+    .course-warning a {
+        padding: 6px 50px;
+        font-size: 16px;
+    }
+
+    .info-panel {
+        position: relative;
+        top: 0;
+        background: cornsilk;
+    }
+    .info-panel div {
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+    .info-panel .btn {
+        margin-top: 10px;
+        border-radius: 4px;
+    }
+    
+</style>
+
+
+	
+    
+<style id="ace_editor.css">.ace_editor {position: relative;overflow: hidden;font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;direction: ltr;text-align: left;}.ace_scroller {position: absolute;overflow: hidden;top: 0;bottom: 0;background-color: inherit;-ms-user-select: none;-moz-user-select: none;-webkit-user-select: none;user-select: none;cursor: text;}.ace_content {position: absolute;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;min-width: 100%;}.ace_dragging .ace_scroller:before{position: absolute;top: 0;left: 0;right: 0;bottom: 0;content: '';background: rgba(250, 250, 250, 0.01);z-index: 1000;}.ace_dragging.ace_dark .ace_scroller:before{background: rgba(0, 0, 0, 0.01);}.ace_selecting, .ace_selecting * {cursor: text !important;}.ace_gutter {position: absolute;overflow : hidden;width: auto;top: 0;bottom: 0;left: 0;cursor: default;z-index: 4;-ms-user-select: none;-moz-user-select: none;-webkit-user-select: none;user-select: none;}.ace_gutter-active-line {position: absolute;left: 0;right: 0;}.ace_scroller.ace_scroll-left {box-shadow: 17px 0 16px -16px rgba(0, 0, 0, 0.4) inset;}.ace_gutter-cell {padding-left: 19px;padding-right: 6px;background-repeat: no-repeat;}.ace_gutter-cell.ace_error {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAABOFBMVEX/////////QRswFAb/Ui4wFAYwFAYwFAaWGAfDRymzOSH/PxswFAb/SiUwFAYwFAbUPRvjQiDllog5HhHdRybsTi3/Tyv9Tir+Syj/UC3////XurebMBIwFAb/RSHbPx/gUzfdwL3kzMivKBAwFAbbvbnhPx66NhowFAYwFAaZJg8wFAaxKBDZurf/RB6mMxb/SCMwFAYwFAbxQB3+RB4wFAb/Qhy4Oh+4QifbNRcwFAYwFAYwFAb/QRzdNhgwFAYwFAbav7v/Uy7oaE68MBK5LxLewr/r2NXewLswFAaxJw4wFAbkPRy2PyYwFAaxKhLm1tMwFAazPiQwFAaUGAb/QBrfOx3bvrv/VC/maE4wFAbRPBq6MRO8Qynew8Dp2tjfwb0wFAbx6eju5+by6uns4uH9/f36+vr/GkHjAAAAYnRSTlMAGt+64rnWu/bo8eAA4InH3+DwoN7j4eLi4xP99Nfg4+b+/u9B/eDs1MD1mO7+4PHg2MXa347g7vDizMLN4eG+Pv7i5evs/v79yu7S3/DV7/498Yv24eH+4ufQ3Ozu/v7+y13sRqwAAADLSURBVHjaZc/XDsFgGIBhtDrshlitmk2IrbHFqL2pvXf/+78DPokj7+Fz9qpU/9UXJIlhmPaTaQ6QPaz0mm+5gwkgovcV6GZzd5JtCQwgsxoHOvJO15kleRLAnMgHFIESUEPmawB9ngmelTtipwwfASilxOLyiV5UVUyVAfbG0cCPHig+GBkzAENHS0AstVF6bacZIOzgLmxsHbt2OecNgJC83JERmePUYq8ARGkJx6XtFsdddBQgZE2nPR6CICZhawjA4Fb/chv+399kfR+MMMDGOQAAAABJRU5ErkJggg==");background-repeat: no-repeat;background-position: 2px center;}.ace_gutter-cell.ace_warning {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAmVBMVEX///8AAAD///8AAAAAAABPSzb/5sAAAAB/blH/73z/ulkAAAAAAAD85pkAAAAAAAACAgP/vGz/rkDerGbGrV7/pkQICAf////e0IsAAAD/oED/qTvhrnUAAAD/yHD/njcAAADuv2r/nz//oTj/p064oGf/zHAAAAA9Nir/tFIAAAD/tlTiuWf/tkIAAACynXEAAAAAAAAtIRW7zBpBAAAAM3RSTlMAABR1m7RXO8Ln31Z36zT+neXe5OzooRDfn+TZ4p3h2hTf4t3k3ucyrN1K5+Xaks52Sfs9CXgrAAAAjklEQVR42o3PbQ+CIBQFYEwboPhSYgoYunIqqLn6/z8uYdH8Vmdnu9vz4WwXgN/xTPRD2+sgOcZjsge/whXZgUaYYvT8QnuJaUrjrHUQreGczuEafQCO/SJTufTbroWsPgsllVhq3wJEk2jUSzX3CUEDJC84707djRc5MTAQxoLgupWRwW6UB5fS++NV8AbOZgnsC7BpEAAAAABJRU5ErkJggg==");background-position: 2px center;}.ace_gutter-cell.ace_info {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAAAAAA6mKC9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAJ0Uk5TAAB2k804AAAAPklEQVQY02NgIB68QuO3tiLznjAwpKTgNyDbMegwisCHZUETUZV0ZqOquBpXj2rtnpSJT1AEnnRmL2OgGgAAIKkRQap2htgAAAAASUVORK5CYII=");background-position: 2px center;}.ace_dark .ace_gutter-cell.ace_info {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJFBMVEUAAAChoaGAgIAqKiq+vr6tra1ZWVmUlJSbm5s8PDxubm56enrdgzg3AAAAAXRSTlMAQObYZgAAAClJREFUeNpjYMAPdsMYHegyJZFQBlsUlMFVCWUYKkAZMxZAGdxlDMQBAG+TBP4B6RyJAAAAAElFTkSuQmCC");}.ace_scrollbar {position: absolute;right: 0;bottom: 0;z-index: 6;}.ace_scrollbar-inner {position: absolute;cursor: text;left: 0;top: 0;}.ace_scrollbar-v{overflow-x: hidden;overflow-y: scroll;top: 0;}.ace_scrollbar-h {overflow-x: scroll;overflow-y: hidden;left: 0;}.ace_print-margin {position: absolute;height: 100%;}.ace_text-input {position: absolute;z-index: 0;width: 0.5em;height: 1em;opacity: 0;background: transparent;-moz-appearance: none;appearance: none;border: none;resize: none;outline: none;overflow: hidden;font: inherit;padding: 0 1px;margin: 0 -1px;text-indent: -1em;-ms-user-select: text;-moz-user-select: text;-webkit-user-select: text;user-select: text;white-space: pre!important;}.ace_text-input.ace_composition {background: inherit;color: inherit;z-index: 1000;opacity: 1;text-indent: 0;}.ace_layer {z-index: 1;position: absolute;overflow: hidden;word-wrap: normal;white-space: pre;height: 100%;width: 100%;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;pointer-events: none;}.ace_gutter-layer {position: relative;width: auto;text-align: right;pointer-events: auto;}.ace_text-layer {font: inherit !important;}.ace_cjk {display: inline-block;text-align: center;}.ace_cursor-layer {z-index: 4;}.ace_cursor {z-index: 4;position: absolute;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;border-left: 2px solid;transform: translatez(0);}.ace_slim-cursors .ace_cursor {border-left-width: 1px;}.ace_overwrite-cursors .ace_cursor {border-left-width: 0;border-bottom: 1px solid;}.ace_hidden-cursors .ace_cursor {opacity: 0.2;}.ace_smooth-blinking .ace_cursor {-webkit-transition: opacity 0.18s;transition: opacity 0.18s;}.ace_editor.ace_multiselect .ace_cursor {border-left-width: 1px;}.ace_marker-layer .ace_step, .ace_marker-layer .ace_stack {position: absolute;z-index: 3;}.ace_marker-layer .ace_selection {position: absolute;z-index: 5;}.ace_marker-layer .ace_bracket {position: absolute;z-index: 6;}.ace_marker-layer .ace_active-line {position: absolute;z-index: 2;}.ace_marker-layer .ace_selected-word {position: absolute;z-index: 4;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.ace_line .ace_fold {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;display: inline-block;height: 11px;margin-top: -2px;vertical-align: middle;background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAJCAYAAADU6McMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJpJREFUeNpi/P//PwOlgAXGYGRklAVSokD8GmjwY1wasKljQpYACtpCFeADcHVQfQyMQAwzwAZI3wJKvCLkfKBaMSClBlR7BOQikCFGQEErIH0VqkabiGCAqwUadAzZJRxQr/0gwiXIal8zQQPnNVTgJ1TdawL0T5gBIP1MUJNhBv2HKoQHHjqNrA4WO4zY0glyNKLT2KIfIMAAQsdgGiXvgnYAAAAASUVORK5CYII="),url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAA3CAYAAADNNiA5AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACJJREFUeNpi+P//fxgTAwPDBxDxD078RSX+YeEyDFMCIMAAI3INmXiwf2YAAAAASUVORK5CYII=");background-repeat: no-repeat, repeat-x;background-position: center center, top left;color: transparent;border: 1px solid black;border-radius: 2px;cursor: pointer;pointer-events: auto;}.ace_dark .ace_fold {}.ace_fold:hover{background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAJCAYAAADU6McMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJpJREFUeNpi/P//PwOlgAXGYGRklAVSokD8GmjwY1wasKljQpYACtpCFeADcHVQfQyMQAwzwAZI3wJKvCLkfKBaMSClBlR7BOQikCFGQEErIH0VqkabiGCAqwUadAzZJRxQr/0gwiXIal8zQQPnNVTgJ1TdawL0T5gBIP1MUJNhBv2HKoQHHjqNrA4WO4zY0glyNKLT2KIfIMAAQsdgGiXvgnYAAAAASUVORK5CYII="),url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAA3CAYAAADNNiA5AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACBJREFUeNpi+P//fz4TAwPDZxDxD5X4i5fLMEwJgAADAEPVDbjNw87ZAAAAAElFTkSuQmCC");}.ace_tooltip {background-color: #FFF;background-image: -webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0.1));background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.1));border: 1px solid gray;border-radius: 1px;box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);color: black;max-width: 100%;padding: 3px 4px;position: fixed;z-index: 999999;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;cursor: default;white-space: pre;word-wrap: break-word;line-height: normal;font-style: normal;font-weight: normal;letter-spacing: normal;pointer-events: none;}.ace_folding-enabled > .ace_gutter-cell {padding-right: 13px;}.ace_fold-widget {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;margin: 0 -12px 0 1px;display: none;width: 11px;vertical-align: top;background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAANElEQVR42mWKsQ0AMAzC8ixLlrzQjzmBiEjp0A6WwBCSPgKAXoLkqSot7nN3yMwR7pZ32NzpKkVoDBUxKAAAAABJRU5ErkJggg==");background-repeat: no-repeat;background-position: center;border-radius: 3px;border: 1px solid transparent;cursor: pointer;}.ace_folding-enabled .ace_fold-widget {display: inline-block;   }.ace_fold-widget.ace_end {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAANElEQVR42m3HwQkAMAhD0YzsRchFKI7sAikeWkrxwScEB0nh5e7KTPWimZki4tYfVbX+MNl4pyZXejUO1QAAAABJRU5ErkJggg==");}.ace_fold-widget.ace_closed {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAGCAYAAAAG5SQMAAAAOUlEQVR42jXKwQkAMAgDwKwqKD4EwQ26sSOkVWjgIIHAzPiCgaqiqnJHZnKICBERHN194O5b9vbLuAVRL+l0YWnZAAAAAElFTkSuQmCCXA==");}.ace_fold-widget:hover {border: 1px solid rgba(0, 0, 0, 0.3);background-color: rgba(255, 255, 255, 0.2);box-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);}.ace_fold-widget:active {border: 1px solid rgba(0, 0, 0, 0.4);background-color: rgba(0, 0, 0, 0.05);box-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);}.ace_dark .ace_fold-widget {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHklEQVQIW2P4//8/AzoGEQ7oGCaLLAhWiSwB146BAQCSTPYocqT0AAAAAElFTkSuQmCC");}.ace_dark .ace_fold-widget.ace_end {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAH0lEQVQIW2P4//8/AxQ7wNjIAjDMgC4AxjCVKBirIAAF0kz2rlhxpAAAAABJRU5ErkJggg==");}.ace_dark .ace_fold-widget.ace_closed {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAFCAYAAACAcVaiAAAAHElEQVQIW2P4//+/AxAzgDADlOOAznHAKgPWAwARji8UIDTfQQAAAABJRU5ErkJggg==");}.ace_dark .ace_fold-widget:hover {box-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);background-color: rgba(255, 255, 255, 0.1);}.ace_dark .ace_fold-widget:active {box-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);}.ace_fold-widget.ace_invalid {background-color: #FFB4B4;border-color: #DE5555;}.ace_fade-fold-widgets .ace_fold-widget {-webkit-transition: opacity 0.4s ease 0.05s;transition: opacity 0.4s ease 0.05s;opacity: 0;}.ace_fade-fold-widgets:hover .ace_fold-widget {-webkit-transition: opacity 0.05s ease 0.05s;transition: opacity 0.05s ease 0.05s;opacity:1;}.ace_underline {text-decoration: underline;}.ace_bold {font-weight: bold;}.ace_nobold .ace_bold {font-weight: normal;}.ace_italic {font-style: italic;}.ace_error-marker {background-color: rgba(255, 0, 0,0.2);position: absolute;z-index: 9;}.ace_highlight-marker {background-color: rgba(255, 255, 0,0.2);position: absolute;z-index: 8;}.ace_br1 {border-top-left-radius    : 3px;}.ace_br2 {border-top-right-radius   : 3px;}.ace_br3 {border-top-left-radius    : 3px; border-top-right-radius:    3px;}.ace_br4 {border-bottom-right-radius: 3px;}.ace_br5 {border-top-left-radius    : 3px; border-bottom-right-radius: 3px;}.ace_br6 {border-top-right-radius   : 3px; border-bottom-right-radius: 3px;}.ace_br7 {border-top-left-radius    : 3px; border-top-right-radius:    3px; border-bottom-right-radius: 3px;}.ace_br8 {border-bottom-left-radius : 3px;}.ace_br9 {border-top-left-radius    : 3px; border-bottom-left-radius:  3px;}.ace_br10{border-top-right-radius   : 3px; border-bottom-left-radius:  3px;}.ace_br11{border-top-left-radius    : 3px; border-top-right-radius:    3px; border-bottom-left-radius:  3px;}.ace_br12{border-bottom-right-radius: 3px; border-bottom-left-radius:  3px;}.ace_br13{border-top-left-radius    : 3px; border-bottom-right-radius: 3px; border-bottom-left-radius:  3px;}.ace_br14{border-top-right-radius   : 3px; border-bottom-right-radius: 3px; border-bottom-left-radius:  3px;}.ace_br15{border-top-left-radius    : 3px; border-top-right-radius:    3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;}
+/*# sourceURL=ace/css/ace_editor.css */</style><style id="ace-tm">.ace-tm .ace_gutter {background: #f0f0f0;color: #333;}.ace-tm .ace_print-margin {width: 1px;background: #e8e8e8;}.ace-tm .ace_fold {background-color: #6B72E6;}.ace-tm {background-color: #FFFFFF;color: black;}.ace-tm .ace_cursor {color: black;}.ace-tm .ace_invisible {color: rgb(191, 191, 191);}.ace-tm .ace_storage,.ace-tm .ace_keyword {color: blue;}.ace-tm .ace_constant {color: rgb(197, 6, 11);}.ace-tm .ace_constant.ace_buildin {color: rgb(88, 72, 246);}.ace-tm .ace_constant.ace_language {color: rgb(88, 92, 246);}.ace-tm .ace_constant.ace_library {color: rgb(6, 150, 14);}.ace-tm .ace_invalid {background-color: rgba(255, 0, 0, 0.1);color: red;}.ace-tm .ace_support.ace_function {color: rgb(60, 76, 114);}.ace-tm .ace_support.ace_constant {color: rgb(6, 150, 14);}.ace-tm .ace_support.ace_type,.ace-tm .ace_support.ace_class {color: rgb(109, 121, 222);}.ace-tm .ace_keyword.ace_operator {color: rgb(104, 118, 135);}.ace-tm .ace_string {color: rgb(3, 106, 7);}.ace-tm .ace_comment {color: rgb(76, 136, 107);}.ace-tm .ace_comment.ace_doc {color: rgb(0, 102, 255);}.ace-tm .ace_comment.ace_doc.ace_tag {color: rgb(128, 159, 191);}.ace-tm .ace_constant.ace_numeric {color: rgb(0, 0, 205);}.ace-tm .ace_variable {color: rgb(49, 132, 149);}.ace-tm .ace_xml-pe {color: rgb(104, 104, 91);}.ace-tm .ace_entity.ace_name.ace_function {color: #0000A2;}.ace-tm .ace_heading {color: rgb(12, 7, 255);}.ace-tm .ace_list {color:rgb(185, 6, 144);}.ace-tm .ace_meta.ace_tag {color:rgb(0, 22, 142);}.ace-tm .ace_string.ace_regex {color: rgb(255, 0, 0)}.ace-tm .ace_marker-layer .ace_selection {background: rgb(181, 213, 255);}.ace-tm.ace_multiselect .ace_selection.ace_start {box-shadow: 0 0 3px 0px white;}.ace-tm .ace_marker-layer .ace_step {background: rgb(252, 255, 0);}.ace-tm .ace_marker-layer .ace_stack {background: rgb(164, 229, 101);}.ace-tm .ace_marker-layer .ace_bracket {margin: -1px 0 0 -1px;border: 1px solid rgb(192, 192, 192);}.ace-tm .ace_marker-layer .ace_active-line {background: rgba(0, 0, 0, 0.07);}.ace-tm .ace_gutter-active-line {background-color : #dcdcdc;}.ace-tm .ace_marker-layer .ace_selected-word {background: rgb(250, 250, 255);border: 1px solid rgb(200, 200, 250);}.ace-tm .ace_indent-guide {background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAE0lEQVQImWP4////f4bLly//BwAmVgd1/w11/gAAAABJRU5ErkJggg==") right repeat-y;}
+/*# sourceURL=ace/css/ace-tm */</style><style>    .error_widget_wrapper {        background: inherit;        color: inherit;        border:none    }    .error_widget {        border-top: solid 2px;        border-bottom: solid 2px;        margin: 5px 0;        padding: 10px 40px;        white-space: pre-wrap;    }    .error_widget.ace_error, .error_widget_arrow.ace_error{        border-color: #ff5a5a    }    .error_widget.ace_warning, .error_widget_arrow.ace_warning{        border-color: #F1D817    }    .error_widget.ace_info, .error_widget_arrow.ace_info{        border-color: #5a5a5a    }    .error_widget.ace_ok, .error_widget_arrow.ace_ok{        border-color: #5aaa5a    }    .error_widget_arrow {        position: absolute;        border: solid 5px;        border-top-color: transparent!important;        border-right-color: transparent!important;        border-left-color: transparent!important;        top: -5px;    }</style></head>
+
+<body>
+	
+        
+        
+            
+
+
+
+
+
+
+<nav class="navbar navbar-default navbar-fixed-top header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-navbar-collapse" aria-expanded="false">
+                <span class="sr-only">实验楼</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://www.shiyanlou.com/">
+                <img src="./pygame开发打飞机游戏 - 实验楼_files/logo_03.png">
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="header-navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="dropdown active">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                        课程
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="" href="https://www.shiyanlou.com/courses/">全部课程</a></li>
+                        <li><a class="" href="https://www.shiyanlou.com/courses/?status=preview">即将上线</a></li>
+                        <li><a class="" href="https://www.shiyanlou.com/developer">开发者</a></li>
+                    </ul>
+                </li>
+                <li class="">
+                    <a href="https://www.shiyanlou.com/paths/">路径</a>
+                </li>
+                <li class="">
+                    <a href="https://www.shiyanlou.com/questions/">讨论区</a>
+                </li>
+                <li class=" bootcamp new-nav logo-1111">
+                    <a href="https://www.shiyanlou.com/bootcamp/">训练营</a>
+                    
+                </li>
+                <li class=" new-nav logo-1111">
+                    <a href="https://www.shiyanlou.com/vip">会员</a>
+                    
+                </li>
+                
+					
+					<li class=""><a href="https://www.shiyanlou.com/user/186052">我的课程</a></li>
+					
+                
+            </ul>
+
+            
+            <ul class="nav navbar-nav navbar-right user">
+                
+                
+                
+                
+                <li><a class="btn btn-primary" id="header-continue-lab" href="https://www.shiyanlou.com/courses/running">继续实验</a></li>
+                
+                
+                <li class="dropdown">
+                    <a href="https://www.shiyanlou.com/user/186052" class="dropdown-toggle hidden-xs">
+                        <img class="header-avatar" src="./pygame开发打飞机游戏 - 实验楼_files/gravatarPAJH4LYGPQPM.jpg" data-toggle="tooltip" data-placement="bottom" data-trigger="manual" title="" data-template="&lt;div class=&quot;tooltip&quot; data-url=&quot;/user/186052/messages&quot; role=&quot;tooltip&quot;&gt;&lt;div class=&quot;tooltip-arrow&quot; style=&quot;border-bottom-color:#f66e6e;&quot;&gt;&lt;/div&gt;&lt;div class=&quot;tooltip-inner&quot; style=&quot;background:#f66e6e;&quot;&gt;&lt;/div&gt;&lt;/div&gt;" data-original-title="新消息">
+                        
+                        <span class="header-msg-count" style="display:none;"></span>
+                        
+    
+    
+    
+    <div class="user-username ">
+        <span class="username" href="/user/186052" target="_blank">
+            Linux开发
+        </span>
+        <span class="user-level">L2</span>
+    </div>
+
+                        <span class="caret"></span>
+                    </a>
+					<a href="https://www.shiyanlou.com/courses/49/labs/221/document#" class="dropdown-toggle visible-xs-block" data-toggle="dropdown">
+                        <img class="header-avatar" src="./pygame开发打飞机游戏 - 实验楼_files/gravatarPAJH4LYGPQPM.jpg">
+                        
+                        <span class="header-msg-count" style="display:none;"></span>
+                        <span class="header-username">Linux开发</span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="https://www.shiyanlou.com/user/186052">主页</a></li>
+                        <li><a href="https://www.shiyanlou.com/user/friends">好友</a></li>
+                        <li><a href="https://www.shiyanlou.com/user/message">
+                            <span class="position-relative"><span class="header-msg-mark" style="display:none;"></span>消息</span>
+                        </a></li>
+                        <li><a href="https://www.shiyanlou.com/user/profile">设置</a></li>
+                        <li rolw="separator" class="divider"></li>
+                        <li><a href="https://www.shiyanlou.com/logout">退出</a></li>
+                    </ul>
+                </li>
+            </ul>
+            
+
+            <form class="navbar-form navbar-right" action="https://www.shiyanlou.com/search" method="get" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="search" autocomplete="off" placeholder="搜索 课程/问答">
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+
+
+
+
+        
+	
+
+
+
+	
+	
+
+	
+
+
+<div class="container layout layout-margin-top">
+    
+<ol class="breadcrumb">
+    <li><a href="https://www.shiyanlou.com/courses/">全部课程</a></li>
+    <li>
+        <a href="https://www.shiyanlou.com/courses/49">pygame开发打飞机游戏</a>
+    </li>
+    <li class="active">
+        pygame开发打飞机游戏
+    </li>
+</ol>
+
+    <div class="row">
+        <div class="col-md-9 layout-body">
+            
+<div class="mobile-alert alert alert-danger">在线实验，请到PC端体验</div>
+<div id="preview" class="markdown-body"><h1 id="pygame-">pygame 开发打飞机游戏</h1>
+<h2 id="-">一、实验说明</h2>
+<h3 id="1-">1. 环境登录</h3>
+<p>无需密码自动登录，系统用户名 shiyanlou，该用户具备 sudo 的权限，可以执行安装软件等管理员操作。 </p>
+<h3 id="2-">2. 环境介绍</h3>
+<p>本实验环境采用 Ubuntu Linux 桌面环境，实验中会用到桌面上的程序： </p>
+<ol>
+<li>Xfce 终端: Linux 命令行终端，打开后会进入 Bash 环境，可以使用 Linux 命令 </li>
+<li>Firefox 及 Opera：浏览器，可以用在需要前端界面的课程里，只需要打开环境里写的 HTML/JS 页面即可 </li>
+<li>gvim：非常好用的 Vim 编辑器，最简单的用法可以参考课程<a href="http://www.shiyanlou.com/courses/2" target="_blank">Vim 编辑器</a></li>
+<li>其他编辑器：如果 Vim 不熟悉可以使用 gedit 或 brackets，其中 brackets 比较适合开发前端代码。</li>
+</ol>
+<h3 id="3-">3. 环境使用</h3>
+<p>使用编辑器输入实验所需的代码及文件，使用命令行终端运行所需命令进行操作。 </p>
+<p>“实验记录”页面可以在“我的主页”中查看，每次实验的截图及笔记，以及有效学习时间（指的是在实验桌面内操作的时间，如果没有操作，系统会记录为发呆时间）。这些都是您在实验楼学习的真实性证明。 </p>
+<p>本课程中的所有源码可以在 Xfce 终端中执行下列命令获取:</p>
+<pre><code class="lang-sh hljs bash">$ git <span class="hljs-built_in">clone</span> http://git.shiyanlou.com/shiyanlou/PythonShootGame
+</code></pre>
+<h2 id="-">二、项目简介</h2>
+<h3 id="1-">1. 介绍</h3>
+<p>本项目来源自Kill-Console博客：<a href="http://www.cnblogs.com/dukeleo/p/3339780.html%EF%BC%8C%E7%B1%BB%E4%BC%BC%E6%9B%BE%E7%BB%8F%E7%81%AB%E7%88%86%E7%9A%84%E5%BE%AE%E4%BF%A1%E6%89%93%E9%A3%9E%E6%9C%BA%E6%B8%B8%E6%88%8F%E3%80%82%E6%B8%B8%E6%88%8F%E5%B0%86%E4%BD%BF%E7%94%A8" target="_blank">http://www.cnblogs.com/dukeleo/p/3339780.html，类似曾经火爆的微信打飞机游戏。游戏将使用</a> Python 语言开发，主要用到 pygame 的 API。游戏最终将会以 python 源文件 game.py 形式完成，只需要运行<code>python game.py</code>就可以进入游戏。</p>
+<p>游戏最终效果截图如下：</p>
+<p><img src="./pygame开发打飞机游戏 - 实验楼_files/pygamegamestart.jpg" alt=""></p>
+<p><img src="./pygame开发打飞机游戏 - 实验楼_files/pygamegameover.jpg" alt=""></p>
+<h3 id="2-">2. 知识点</h3>
+<p>本实验中将介绍在 Linux 桌面环境下使用 Python 及 pygame 快速开发小游戏的方式。可以通过这个游戏入门 pygame 游戏开发。</p>
+<h3 id="3-">3. 参考文档</h3>
+<ul>
+<li>代码参考 Kill-Console 写的<a href="https://github.com/Kill-Console/PythonShootGame" target="_blank">PythonShootGame</a></li>
+<li>文档参考 <a href="http://www.pygame.org/docs/ref/" target="_blank">pygame 文档</a></li>
+</ul>
+<h3 id="4-">4. 安装依赖包</h3>
+<p>需要安装 pygame 库来支持本实验所需的代码运行。</p>
+<p>在实验环境中打开 Xfce 终端，并输入以下命令来安装 pygame，会提示输入 shiyanlou 的密码：</p>
+<pre><code class="lang-sh hljs bash">$ sudo apt-get update
+$ sudo apt-get install python-pygame
+</code></pre>
+<h2 id="-">三、技术设计</h2>
+<h3 id="1-">1. 游戏角色</h3>
+<p>本游戏中所需的角色包括玩家飞机、敌机及子弹。用户可以通过键盘移动玩家飞机在屏幕上的位置来打击不同位置的敌机。因此设计以下 Player，Enemy 和 Bullet 三个类对应三种游戏角色。</p>
+<p>对于 Player，需要的操作有射击和移动两种，移动又分为上下左右 4 种情况。</p>
+<p>对于 Enemy，则比较简单，只需要移动即可，从屏幕上方出现并移动到屏幕下方。</p>
+<p>对于 Bullet，与飞机相同，仅需要以一定速度移动即可。</p>
+<h3 id="2-">2. 游戏功能</h3>
+<p>相信玩过微信打飞机的朋友都熟悉，这里将游戏做了简化。飞机的速度固定，子弹的速度固定，基本操作是移动玩家飞机，目标飞机随机从屏幕上方出现并匀速落到下方，子弹从玩家飞机发出，碰到目标飞机会击毁，如果目标飞机碰到玩家飞机，则 Game Over 并显示分数。</p>
+<h2 id="-">四、代码实现</h2>
+<h3 id="1-">1. 界面显示</h3>
+<p>代码实现所需的 resources 图片文件都可以通过下述命令获取：</p>
+<pre><code class="lang-sh hljs bash"><span class="hljs-variable">$git</span> <span class="hljs-built_in">clone</span> http://git.shiyanlou.com/shiyanlou/PythonShootGame
+</code></pre>
+<p><strong>详细步骤</strong></p>
+<ol>
+<li>初始化 pygame</li>
+<li>设置游戏界面大小、背景图片及标题</li>
+<li>游戏主循环内需要处理游戏界面的初始化、更新及退出</li>
+<li>显示玩家飞机（代码中使用的 resources/image/shoot.png 图里包含多种飞机，只需要使用 pygame.image 的 subsurface API 根据位置截取 shoot.png 中所需的图片）</li>
+</ol>
+<p><strong>示例代码</strong></p>
+<pre><code class="lang-python hljs"><span class="hljs-comment">#1. 初始化 pygame</span>
+pygame.init()
+
+<span class="hljs-comment">#2. 设置游戏界面大小、背景图片及标题</span>
+<span class="hljs-comment"># 游戏界面像素大小</span>
+screen = pygame.display.set_mode((<span class="hljs-number">480</span>, <span class="hljs-number">800</span>))
+
+<span class="hljs-comment"># 游戏界面标题</span>
+pygame.display.set_caption(<span class="hljs-string">'飞机大战'</span>)
+
+<span class="hljs-comment"># 背景图</span>
+background = pygame.image.load(<span class="hljs-string">'resources/image/background.png'</span>).convert()
+
+<span class="hljs-comment"># Game Over 的背景图</span>
+game_over = pygame.image.load(<span class="hljs-string">'resources/image/gameover.png'</span>)
+
+<span class="hljs-comment"># 飞机图片</span>
+plane_img = pygame.image.load(<span class="hljs-string">'resources/image/shoot.png'</span>)
+
+<span class="hljs-comment"># 截取玩家飞机图片</span>
+player = plane_img.subsurface(pygame.Rect(<span class="hljs-number">0</span>, <span class="hljs-number">99</span>, <span class="hljs-number">102</span>, <span class="hljs-number">126</span>))
+
+<span class="hljs-comment">#3. 游戏主循环内需要处理游戏界面的初始化、更新及退出</span>
+<span class="hljs-keyword">while</span> <span class="hljs-keyword">True</span>:
+    <span class="hljs-comment"># 初始化游戏屏幕</span>
+    screen.fill(<span class="hljs-number">0</span>)
+    screen.blit(background, (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>))
+
+    <span class="hljs-comment"># 显示玩家飞机在位置[200,600]</span>
+    screen.blit(player, [<span class="hljs-number">200</span>, <span class="hljs-number">600</span>])
+
+    <span class="hljs-comment"># 更新游戏屏幕</span>
+    pygame.display.update()
+
+    <span class="hljs-comment"># 游戏退出事件</span>
+    <span class="hljs-keyword">for</span> event <span class="hljs-keyword">in</span> pygame.event.get():
+        <span class="hljs-keyword">if</span> event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+</code></pre>
+<h3 id="2-">2. 事件处理</h3>
+<p>在主循环中处理键盘输入的事件（上下左右按键操作），增加游戏操作交互（玩家飞机的上下左右移动）。</p>
+<p><strong>详细步骤</strong></p>
+<ol>
+<li>获取键盘事件（上下左右按键）</li>
+<li>处理键盘事件（移动飞机的位置）</li>
+<li>将上述步骤代码放入游戏主循环中</li>
+</ol>
+<p><strong>示例代码</strong></p>
+<pre><code class="hljs coffeescript"><span class="hljs-comment">#1. 获取键盘事件（上下左右按键）</span>
+key_pressed = pygame.key.get_pressed()
+
+<span class="hljs-comment">#2. 处理键盘事件（移动飞机的位置）</span>
+<span class="hljs-keyword">if</span> key_pressed[K_w] <span class="hljs-keyword">or</span> key_pressed[K_UP]:
+    player.moveUp()
+<span class="hljs-keyword">if</span> key_pressed[K_s] <span class="hljs-keyword">or</span> key_pressed[K_DOWN]:
+    player.moveDown()
+<span class="hljs-keyword">if</span> key_pressed[K_a] <span class="hljs-keyword">or</span> key_pressed[K_LEFT]:
+    player.moveLeft()
+<span class="hljs-keyword">if</span> key_pressed[K_d] <span class="hljs-keyword">or</span> key_pressed[K_RIGHT]:
+    player.moveRight()
+</code></pre><h3 id="3-">3. 子弹处理</h3>
+<p>子弹由玩家飞机发出，并以一定速度向界面上方移动。</p>
+<p><strong>详细步骤</strong></p>
+<ol>
+<li>生成子弹，需要控制发射频率</li>
+<li>以固定速度移动子弹</li>
+<li>移动出屏幕后删除子弹</li>
+<li>敌机被子弹击中效果处理（下一节处理）</li>
+</ol>
+<p><strong>示例代码</strong></p>
+<pre><code class="hljs coffeescript"><span class="hljs-comment">#1. 生成子弹，需要控制发射频率</span>
+<span class="hljs-comment"># 首先判断玩家飞机没有被击中</span>
+<span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> player.is_hit:
+    <span class="hljs-keyword">if</span> shoot_frequency % <span class="hljs-number">15</span> == <span class="hljs-number">0</span>:
+        player.shoot(bullet_img)
+    shoot_frequency += <span class="hljs-number">1</span>
+    <span class="hljs-keyword">if</span> shoot_frequency &gt;= <span class="hljs-number">15</span>:
+        shoot_frequency = <span class="hljs-number">0</span>
+
+<span class="hljs-keyword">for</span> bullet <span class="hljs-keyword">in</span> player.bullets:
+    <span class="hljs-comment">#2. 以固定速度移动子弹</span>
+    bullet.move()
+    <span class="hljs-comment">#3. 移动出屏幕后删除子弹</span>
+    <span class="hljs-keyword">if</span> bullet.rect.bottom &lt; <span class="hljs-number">0</span>:
+        player.bullets.remove(bullet)            
+
+<span class="hljs-comment"># 显示子弹</span>
+player.bullets.draw(screen)
+</code></pre><h3 id="4-">4. 敌机处理</h3>
+<p>敌机需要随机在界面上方产生，并以一定速度向下移动。</p>
+<p><strong>详细步骤</strong></p>
+<ol>
+<li>生成敌机，需要控制生成频率</li>
+<li>移动敌机</li>
+<li>敌机与玩家飞机碰撞效果处理</li>
+<li>移动出屏幕后删除敌机</li>
+<li>敌机被子弹击中效果处理</li>
+</ol>
+<p><strong>示例代码</strong></p>
+<pre><code class="hljs cs"><span class="hljs-meta">#1. 生成敌机，需要控制生成频率</span>
+<span class="hljs-keyword">if</span> enemy_frequency % <span class="hljs-number">50</span> == <span class="hljs-number">0</span>:
+    enemy1_pos = [random.randint(<span class="hljs-number">0</span>, SCREEN_WIDTH - enemy1_rect.width), <span class="hljs-number">0</span>]
+    enemy1 = Enemy(enemy1_img, enemy1_down_imgs, enemy1_pos)
+    enemies1.<span class="hljs-keyword">add</span>(enemy1)
+enemy_frequency += <span class="hljs-number">1</span>
+<span class="hljs-keyword">if</span> enemy_frequency &gt;= <span class="hljs-number">100</span>:
+    enemy_frequency = <span class="hljs-number">0</span>
+
+
+<span class="hljs-keyword">for</span> enemy <span class="hljs-keyword">in</span> enemies1:
+    <span class="hljs-meta">#2. 移动敌机</span>
+    enemy.move()
+    <span class="hljs-meta">#3. 敌机与玩家飞机碰撞效果处理</span>
+    <span class="hljs-keyword">if</span> pygame.sprite.collide_circle(enemy, player):
+        enemies_down.<span class="hljs-keyword">add</span>(enemy)
+        enemies1.<span class="hljs-keyword">remove</span>(enemy)
+        player.is_hit = True
+        <span class="hljs-keyword">break</span>
+    <span class="hljs-meta">#4. 移动出屏幕后删除飞机    </span>
+    <span class="hljs-keyword">if</span> enemy.rect.top &lt; <span class="hljs-number">0</span>:
+        enemies1.<span class="hljs-keyword">remove</span>(enemy)
+
+<span class="hljs-meta">#5. 敌机被子弹击中效果处理</span>
+
+<span class="hljs-meta"># 将被击中的敌机对象添加到击毁敌机 Group 中，用来渲染击毁动画</span>
+enemies1_down = pygame.sprite.groupcollide(enemies1, player.bullets, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>)
+<span class="hljs-keyword">for</span> enemy_down <span class="hljs-keyword">in</span> enemies1_down:
+    enemies_down.<span class="hljs-keyword">add</span>(enemy_down)
+
+<span class="hljs-meta"># 敌机被子弹击中效果显示</span>
+<span class="hljs-keyword">for</span> enemy_down <span class="hljs-keyword">in</span> enemies_down:
+    <span class="hljs-keyword">if</span> enemy_down.down_index == <span class="hljs-number">0</span>:
+        pass
+    <span class="hljs-keyword">if</span> enemy_down.down_index &gt; <span class="hljs-number">7</span>:
+        enemies_down.<span class="hljs-keyword">remove</span>(enemy_down)
+        score += <span class="hljs-number">1000</span>
+        <span class="hljs-keyword">continue</span>
+    screen.blit(enemy_down.down_imgs[enemy_down.down_index / <span class="hljs-number">2</span>], enemy_down.rect)
+    enemy_down.down_index += <span class="hljs-number">1</span>
+
+<span class="hljs-meta"># 显示敌机</span>
+enemies1.draw(screen)
+</code></pre><h3 id="5-">5. 得分显示</h3>
+<p>在游戏界面固定位置显示消灭了多少目标敌机。</p>
+<p><strong>示例代码</strong></p>
+<pre><code class="hljs makefile"><span class="hljs-comment"># 绘制得分</span>
+score_font = pygame.font.Font(None, 36)
+score_text = score_font.render(str(score), True, (128, 128, 128))
+text_rect = score_text.get_rect()
+text_rect.topleft = [10, 10]
+screen.blit(score_text, text_rect)
+</code></pre><h2 id="-">五、完整代码参考</h2>
+<p>大家可以按照上述步骤组合出自己的打飞机游戏，也可以参考下列完整代码。</p>
+<p>源码实现 Fork 自 Kill-Console 写的<a href="https://github.com/Kill-Console/PythonShootGame" target="_blank">PythonShootGame</a>并稍作修改，修改后的代码也开源到 github 上，可以使用下列命令获取：</p>
+<pre><code class="lang-sh hljs bash">$ git <span class="hljs-built_in">clone</span> https://github.com/shiyanlou/PythonShootGame
+</code></pre>
+<pre><code class="lang-python hljs"><span class="hljs-comment"># -*- coding: utf-8 -*-</span>
+<span class="hljs-keyword">import</span> pygame
+<span class="hljs-keyword">from</span> sys <span class="hljs-keyword">import</span> exit
+<span class="hljs-keyword">from</span> pygame.locals <span class="hljs-keyword">import</span> *
+<span class="hljs-keyword">import</span> random
+
+<span class="hljs-comment"># 设置游戏屏幕大小</span>
+SCREEN_WIDTH = <span class="hljs-number">480</span>
+SCREEN_HEIGHT = <span class="hljs-number">800</span>
+
+<span class="hljs-comment"># 子弹类</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bullet</span><span class="hljs-params">(pygame.sprite.Sprite)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, bullet_img, init_pos)</span>:</span>
+        pygame.sprite.Sprite.__init__(self)
+        self.image = bullet_img
+        self.rect = self.image.get_rect()
+        self.rect.midbottom = init_pos
+        self.speed = <span class="hljs-number">10</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">move</span><span class="hljs-params">(self)</span>:</span>
+        self.rect.top -= self.speed
+
+<span class="hljs-comment"># 玩家飞机类</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Player</span><span class="hljs-params">(pygame.sprite.Sprite)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, plane_img, player_rect, init_pos)</span>:</span>
+        pygame.sprite.Sprite.__init__(self)
+        self.image = []                                 <span class="hljs-comment"># 用来存储玩家飞机图片的列表</span>
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(player_rect)):
+            self.image.append(plane_img.subsurface(player_rect[i]).convert_alpha())
+        self.rect = player_rect[<span class="hljs-number">0</span>]                      <span class="hljs-comment"># 初始化图片所在的矩形</span>
+        self.rect.topleft = init_pos                    <span class="hljs-comment"># 初始化矩形的左上角坐标</span>
+        self.speed = <span class="hljs-number">8</span>                                  <span class="hljs-comment"># 初始化玩家飞机速度，这里是一个确定的值</span>
+        self.bullets = pygame.sprite.Group()            <span class="hljs-comment"># 玩家飞机所发射的子弹的集合</span>
+        self.img_index = <span class="hljs-number">0</span>                              <span class="hljs-comment"># 玩家飞机图片索引</span>
+        self.is_hit = <span class="hljs-keyword">False</span>                             <span class="hljs-comment"># 玩家是否被击中</span>
+
+    <span class="hljs-comment"># 发射子弹</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">shoot</span><span class="hljs-params">(self, bullet_img)</span>:</span>
+        bullet = Bullet(bullet_img, self.rect.midtop)
+        self.bullets.add(bullet)
+
+    <span class="hljs-comment"># 向上移动，需要判断边界</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">moveUp</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">if</span> self.rect.top &lt;= <span class="hljs-number">0</span>:
+            self.rect.top = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">else</span>:
+            self.rect.top -= self.speed
+
+    <span class="hljs-comment"># 向下移动，需要判断边界</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">moveDown</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">if</span> self.rect.top &gt;= SCREEN_HEIGHT - self.rect.height:
+            self.rect.top = SCREEN_HEIGHT - self.rect.height
+        <span class="hljs-keyword">else</span>:
+            self.rect.top += self.speed
+
+    <span class="hljs-comment"># 向左移动，需要判断边界</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">moveLeft</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">if</span> self.rect.left &lt;= <span class="hljs-number">0</span>:
+            self.rect.left = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">else</span>:
+            self.rect.left -= self.speed
+
+    <span class="hljs-comment"># 向右移动，需要判断边界        </span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">moveRight</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">if</span> self.rect.left &gt;= SCREEN_WIDTH - self.rect.width:
+            self.rect.left = SCREEN_WIDTH - self.rect.width
+        <span class="hljs-keyword">else</span>:
+            self.rect.left += self.speed
+
+<span class="hljs-comment"># 敌机类</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Enemy</span><span class="hljs-params">(pygame.sprite.Sprite)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, enemy_img, enemy_down_imgs, init_pos)</span>:</span>
+       pygame.sprite.Sprite.__init__(self)
+       self.image = enemy_img
+       self.rect = self.image.get_rect()
+       self.rect.topleft = init_pos
+       self.down_imgs = enemy_down_imgs
+       self.speed = <span class="hljs-number">2</span>
+       self.down_index = <span class="hljs-number">0</span>
+
+    <span class="hljs-comment"># 敌机移动，边界判断及删除在游戏主循环里处理</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">move</span><span class="hljs-params">(self)</span>:</span>
+        self.rect.top += self.speed
+
+<span class="hljs-comment"># 初始化 pygame</span>
+pygame.init()
+
+<span class="hljs-comment"># 设置游戏界面大小、背景图片及标题</span>
+<span class="hljs-comment"># 游戏界面像素大小</span>
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+<span class="hljs-comment"># 游戏界面标题</span>
+pygame.display.set_caption(<span class="hljs-string">'飞机大战'</span>)
+
+<span class="hljs-comment"># 背景图</span>
+background = pygame.image.load(<span class="hljs-string">'resources/image/background.png'</span>).convert()
+
+<span class="hljs-comment"># Game Over 的背景图</span>
+game_over = pygame.image.load(<span class="hljs-string">'resources/image/gameover.png'</span>)
+
+<span class="hljs-comment"># 飞机及子弹图片集合</span>
+plane_img = pygame.image.load(<span class="hljs-string">'resources/image/shoot.png'</span>)
+
+<span class="hljs-comment"># 设置玩家飞机不同状态的图片列表，多张图片展示为动画效果</span>
+player_rect = []
+player_rect.append(pygame.Rect(<span class="hljs-number">0</span>, <span class="hljs-number">99</span>, <span class="hljs-number">102</span>, <span class="hljs-number">126</span>))        <span class="hljs-comment"># 玩家飞机图片</span>
+player_rect.append(pygame.Rect(<span class="hljs-number">165</span>, <span class="hljs-number">360</span>, <span class="hljs-number">102</span>, <span class="hljs-number">126</span>))
+player_rect.append(pygame.Rect(<span class="hljs-number">165</span>, <span class="hljs-number">234</span>, <span class="hljs-number">102</span>, <span class="hljs-number">126</span>))     <span class="hljs-comment"># 玩家爆炸图片</span>
+player_rect.append(pygame.Rect(<span class="hljs-number">330</span>, <span class="hljs-number">624</span>, <span class="hljs-number">102</span>, <span class="hljs-number">126</span>))
+player_rect.append(pygame.Rect(<span class="hljs-number">330</span>, <span class="hljs-number">498</span>, <span class="hljs-number">102</span>, <span class="hljs-number">126</span>))
+player_rect.append(pygame.Rect(<span class="hljs-number">432</span>, <span class="hljs-number">624</span>, <span class="hljs-number">102</span>, <span class="hljs-number">126</span>))
+player_pos = [<span class="hljs-number">200</span>, <span class="hljs-number">600</span>]
+player = Player(plane_img, player_rect, player_pos)
+
+<span class="hljs-comment"># 子弹图片</span>
+bullet_rect = pygame.Rect(<span class="hljs-number">1004</span>, <span class="hljs-number">987</span>, <span class="hljs-number">9</span>, <span class="hljs-number">21</span>)
+bullet_img = plane_img.subsurface(bullet_rect)
+
+<span class="hljs-comment"># 敌机不同状态的图片列表，多张图片展示为动画效果</span>
+enemy1_rect = pygame.Rect(<span class="hljs-number">534</span>, <span class="hljs-number">612</span>, <span class="hljs-number">57</span>, <span class="hljs-number">43</span>)
+enemy1_img = plane_img.subsurface(enemy1_rect)
+enemy1_down_imgs = []
+enemy1_down_imgs.append(plane_img.subsurface(pygame.Rect(<span class="hljs-number">267</span>, <span class="hljs-number">347</span>, <span class="hljs-number">57</span>, <span class="hljs-number">43</span>)))
+enemy1_down_imgs.append(plane_img.subsurface(pygame.Rect(<span class="hljs-number">873</span>, <span class="hljs-number">697</span>, <span class="hljs-number">57</span>, <span class="hljs-number">43</span>)))
+enemy1_down_imgs.append(plane_img.subsurface(pygame.Rect(<span class="hljs-number">267</span>, <span class="hljs-number">296</span>, <span class="hljs-number">57</span>, <span class="hljs-number">43</span>)))
+enemy1_down_imgs.append(plane_img.subsurface(pygame.Rect(<span class="hljs-number">930</span>, <span class="hljs-number">697</span>, <span class="hljs-number">57</span>, <span class="hljs-number">43</span>)))
+
+enemies1 = pygame.sprite.Group()
+
+<span class="hljs-comment"># 存储被击毁的飞机，用来渲染击毁动画</span>
+enemies_down = pygame.sprite.Group()
+
+<span class="hljs-comment"># 初始化射击及敌机移动频率</span>
+shoot_frequency = <span class="hljs-number">0</span>
+enemy_frequency = <span class="hljs-number">0</span>
+
+<span class="hljs-comment"># 玩家飞机被击中后的效果处理</span>
+player_down_index = <span class="hljs-number">16</span>
+
+<span class="hljs-comment"># 初始化分数</span>
+score = <span class="hljs-number">0</span>
+
+<span class="hljs-comment"># 游戏循环帧率设置</span>
+clock = pygame.time.Clock()
+
+<span class="hljs-comment"># 判断游戏循环退出的参数</span>
+running = <span class="hljs-keyword">True</span>
+
+<span class="hljs-comment"># 游戏主循环</span>
+<span class="hljs-keyword">while</span> running:
+    <span class="hljs-comment"># 控制游戏最大帧率为 60</span>
+    clock.tick(<span class="hljs-number">60</span>)
+
+    <span class="hljs-comment"># 生成子弹，需要控制发射频率</span>
+    <span class="hljs-comment"># 首先判断玩家飞机没有被击中</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> player.is_hit:
+        <span class="hljs-keyword">if</span> shoot_frequency % <span class="hljs-number">15</span> == <span class="hljs-number">0</span>:
+            player.shoot(bullet_img)
+        shoot_frequency += <span class="hljs-number">1</span>
+        <span class="hljs-keyword">if</span> shoot_frequency &gt;= <span class="hljs-number">15</span>:
+            shoot_frequency = <span class="hljs-number">0</span>
+
+    <span class="hljs-comment"># 生成敌机，需要控制生成频率</span>
+    <span class="hljs-keyword">if</span> enemy_frequency % <span class="hljs-number">50</span> == <span class="hljs-number">0</span>:
+        enemy1_pos = [random.randint(<span class="hljs-number">0</span>, SCREEN_WIDTH - enemy1_rect.width), <span class="hljs-number">0</span>]
+        enemy1 = Enemy(enemy1_img, enemy1_down_imgs, enemy1_pos)
+        enemies1.add(enemy1)
+    enemy_frequency += <span class="hljs-number">1</span>
+    <span class="hljs-keyword">if</span> enemy_frequency &gt;= <span class="hljs-number">100</span>:
+        enemy_frequency = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">for</span> bullet <span class="hljs-keyword">in</span> player.bullets:
+        <span class="hljs-comment"># 以固定速度移动子弹</span>
+        bullet.move()
+        <span class="hljs-comment"># 移动出屏幕后删除子弹</span>
+        <span class="hljs-keyword">if</span> bullet.rect.bottom &lt; <span class="hljs-number">0</span>:
+            player.bullets.remove(bullet)   
+
+    <span class="hljs-keyword">for</span> enemy <span class="hljs-keyword">in</span> enemies1:
+        <span class="hljs-comment">#2. 移动敌机</span>
+        enemy.move()
+        <span class="hljs-comment">#3. 敌机与玩家飞机碰撞效果处理</span>
+        <span class="hljs-keyword">if</span> pygame.sprite.collide_circle(enemy, player):
+            enemies_down.add(enemy)
+            enemies1.remove(enemy)
+            player.is_hit = <span class="hljs-keyword">True</span>
+            <span class="hljs-keyword">break</span>
+        <span class="hljs-comment">#4. 移动出屏幕后删除飞机    </span>
+        <span class="hljs-keyword">if</span> enemy.rect.top &lt; <span class="hljs-number">0</span>:
+            enemies1.remove(enemy)
+
+    <span class="hljs-comment">#敌机被子弹击中效果处理</span>
+    <span class="hljs-comment"># 将被击中的敌机对象添加到击毁敌机 Group 中，用来渲染击毁动画</span>
+    enemies1_down = pygame.sprite.groupcollide(enemies1, player.bullets, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>)
+    <span class="hljs-keyword">for</span> enemy_down <span class="hljs-keyword">in</span> enemies1_down:
+        enemies_down.add(enemy_down)
+
+    <span class="hljs-comment"># 绘制背景</span>
+    screen.fill(<span class="hljs-number">0</span>)
+    screen.blit(background, (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>))
+
+    <span class="hljs-comment"># 绘制玩家飞机</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> player.is_hit:
+        screen.blit(player.image[player.img_index], player.rect)
+        <span class="hljs-comment"># 更换图片索引使飞机有动画效果</span>
+        player.img_index = shoot_frequency / <span class="hljs-number">8</span>
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-comment"># 玩家飞机被击中后的效果处理</span>
+        player.img_index = player_down_index / <span class="hljs-number">8</span>
+        screen.blit(player.image[player.img_index], player.rect)
+        player_down_index += <span class="hljs-number">1</span>
+        <span class="hljs-keyword">if</span> player_down_index &gt; <span class="hljs-number">47</span>:
+            <span class="hljs-comment"># 击中效果处理完成后游戏结束</span>
+            running = <span class="hljs-keyword">False</span>
+
+    <span class="hljs-comment"># 敌机被子弹击中效果显示</span>
+    <span class="hljs-keyword">for</span> enemy_down <span class="hljs-keyword">in</span> enemies_down:
+        <span class="hljs-keyword">if</span> enemy_down.down_index == <span class="hljs-number">0</span>:
+            <span class="hljs-keyword">pass</span>
+        <span class="hljs-keyword">if</span> enemy_down.down_index &gt; <span class="hljs-number">7</span>:
+            enemies_down.remove(enemy_down)
+            score += <span class="hljs-number">1000</span>
+            <span class="hljs-keyword">continue</span>
+        screen.blit(enemy_down.down_imgs[enemy_down.down_index / <span class="hljs-number">2</span>], enemy_down.rect)
+        enemy_down.down_index += <span class="hljs-number">1</span>
+
+    <span class="hljs-comment"># 显示子弹</span>
+    player.bullets.draw(screen)
+    <span class="hljs-comment"># 显示敌机</span>
+    enemies1.draw(screen)
+
+    <span class="hljs-comment"># 绘制得分</span>
+    score_font = pygame.font.Font(<span class="hljs-keyword">None</span>, <span class="hljs-number">36</span>)
+    score_text = score_font.render(str(score), <span class="hljs-keyword">True</span>, (<span class="hljs-number">128</span>, <span class="hljs-number">128</span>, <span class="hljs-number">128</span>))
+    text_rect = score_text.get_rect()
+    text_rect.topleft = [<span class="hljs-number">10</span>, <span class="hljs-number">10</span>]
+    screen.blit(score_text, text_rect)
+
+    <span class="hljs-comment"># 更新屏幕</span>
+    pygame.display.update()
+
+    <span class="hljs-comment"># 处理游戏退出</span>
+    <span class="hljs-keyword">for</span> event <span class="hljs-keyword">in</span> pygame.event.get():
+        <span class="hljs-keyword">if</span> event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+
+    <span class="hljs-comment"># 获取键盘事件（上下左右按键）</span>
+    key_pressed = pygame.key.get_pressed()
+
+    <span class="hljs-comment"># 处理键盘事件（移动飞机的位置）</span>
+    <span class="hljs-keyword">if</span> key_pressed[K_w] <span class="hljs-keyword">or</span> key_pressed[K_UP]:
+        player.moveUp()
+    <span class="hljs-keyword">if</span> key_pressed[K_s] <span class="hljs-keyword">or</span> key_pressed[K_DOWN]:
+        player.moveDown()
+    <span class="hljs-keyword">if</span> key_pressed[K_a] <span class="hljs-keyword">or</span> key_pressed[K_LEFT]:
+        player.moveLeft()
+    <span class="hljs-keyword">if</span> key_pressed[K_d] <span class="hljs-keyword">or</span> key_pressed[K_RIGHT]:
+        player.moveRight()
+
+<span class="hljs-comment"># 游戏 Game Over 后显示最终得分</span>
+font = pygame.font.Font(<span class="hljs-keyword">None</span>, <span class="hljs-number">48</span>)
+text = font.render(<span class="hljs-string">'Score: '</span>+ str(score), <span class="hljs-keyword">True</span>, (<span class="hljs-number">255</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>))
+text_rect = text.get_rect()
+text_rect.centerx = screen.get_rect().centerx
+text_rect.centery = screen.get_rect().centery + <span class="hljs-number">24</span>
+screen.blit(game_over, (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>))
+screen.blit(text, text_rect)
+
+<span class="hljs-comment"># 显示得分并处理游戏退出</span>
+<span class="hljs-keyword">while</span> <span class="hljs-number">1</span>:
+    <span class="hljs-keyword">for</span> event <span class="hljs-keyword">in</span> pygame.event.get():
+        <span class="hljs-keyword">if</span> event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+    pygame.display.update()
+</code></pre>
+</div>
+
+<textarea id="editor" style="display:none;">#pygame 开发打飞机游戏
+## 一、实验说明 
+
+### 1. 环境登录 
+
+无需密码自动登录，系统用户名 shiyanlou，该用户具备 sudo 的权限，可以执行安装软件等管理员操作。 
+
+### 2. 环境介绍 
+
+本实验环境采用 Ubuntu Linux 桌面环境，实验中会用到桌面上的程序： 
+
+1. Xfce 终端: Linux 命令行终端，打开后会进入 Bash 环境，可以使用 Linux 命令 
+2. Firefox 及 Opera：浏览器，可以用在需要前端界面的课程里，只需要打开环境里写的 HTML/JS 页面即可 
+3. gvim：非常好用的 Vim 编辑器，最简单的用法可以参考课程[Vim 编辑器](http://www.shiyanlou.com/courses/2)
+4. 其他编辑器：如果 Vim 不熟悉可以使用 gedit 或 brackets，其中 brackets 比较适合开发前端代码。
+
+### 3. 环境使用 
+
+使用编辑器输入实验所需的代码及文件，使用命令行终端运行所需命令进行操作。 
+
+
+“实验记录”页面可以在“我的主页”中查看，每次实验的截图及笔记，以及有效学习时间（指的是在实验桌面内操作的时间，如果没有操作，系统会记录为发呆时间）。这些都是您在实验楼学习的真实性证明。 
+
+本课程中的所有源码可以在 Xfce 终端中执行下列命令获取:
+
+```sh
+$ git clone http://git.shiyanlou.com/shiyanlou/PythonShootGame
+```
+
+
+
+## 二、项目简介
+
+###1. 介绍
+
+本项目来源自Kill-Console博客：http://www.cnblogs.com/dukeleo/p/3339780.html，类似曾经火爆的微信打飞机游戏。游戏将使用 Python 语言开发，主要用到 pygame 的 API。游戏最终将会以 python 源文件 game.py 形式完成，只需要运行`python game.py`就可以进入游戏。
+
+游戏最终效果截图如下：
+
+![](https://dn-anything-about-doc.qbox.me/pygamegamestart.jpg)
+
+![](https://dn-anything-about-doc.qbox.me/pygamegameover.jpg)
+
+
+###2. 知识点
+
+本实验中将介绍在 Linux 桌面环境下使用 Python 及 pygame 快速开发小游戏的方式。可以通过这个游戏入门 pygame 游戏开发。
+
+###3. 参考文档
+
++ 代码参考 Kill-Console 写的[PythonShootGame](https://github.com/Kill-Console/PythonShootGame)
++ 文档参考 [pygame 文档](http://www.pygame.org/docs/ref/)
+
+###4. 安装依赖包
+
+需要安装 pygame 库来支持本实验所需的代码运行。
+
+在实验环境中打开 Xfce 终端，并输入以下命令来安装 pygame，会提示输入 shiyanlou 的密码：
+
+```sh
+$ sudo apt-get update
+$ sudo apt-get install python-pygame
+```
+
+## 三、技术设计
+
+###1. 游戏角色
+
+本游戏中所需的角色包括玩家飞机、敌机及子弹。用户可以通过键盘移动玩家飞机在屏幕上的位置来打击不同位置的敌机。因此设计以下 Player，Enemy 和 Bullet 三个类对应三种游戏角色。
+
+对于 Player，需要的操作有射击和移动两种，移动又分为上下左右 4 种情况。
+
+对于 Enemy，则比较简单，只需要移动即可，从屏幕上方出现并移动到屏幕下方。
+
+对于 Bullet，与飞机相同，仅需要以一定速度移动即可。
+
+###2. 游戏功能
+
+相信玩过微信打飞机的朋友都熟悉，这里将游戏做了简化。飞机的速度固定，子弹的速度固定，基本操作是移动玩家飞机，目标飞机随机从屏幕上方出现并匀速落到下方，子弹从玩家飞机发出，碰到目标飞机会击毁，如果目标飞机碰到玩家飞机，则 Game Over 并显示分数。
+
+##四、代码实现
+
+###1. 界面显示
+
+代码实现所需的 resources 图片文件都可以通过下述命令获取：
+
+```sh
+$git clone http://git.shiyanlou.com/shiyanlou/PythonShootGame
+```
+
+
+**详细步骤**
+
+1. 初始化 pygame
+2. 设置游戏界面大小、背景图片及标题
+3. 游戏主循环内需要处理游戏界面的初始化、更新及退出
+4. 显示玩家飞机（代码中使用的 resources/image/shoot.png 图里包含多种飞机，只需要使用 pygame.image 的 subsurface API 根据位置截取 shoot.png 中所需的图片）
+
+**示例代码**
+
+```python
+#1. 初始化 pygame
+pygame.init()
+
+#2. 设置游戏界面大小、背景图片及标题
+# 游戏界面像素大小
+screen = pygame.display.set_mode((480, 800))
+
+# 游戏界面标题
+pygame.display.set_caption('飞机大战')
+
+# 背景图
+background = pygame.image.load('resources/image/background.png').convert()
+
+# Game Over 的背景图
+game_over = pygame.image.load('resources/image/gameover.png')
+
+# 飞机图片
+plane_img = pygame.image.load('resources/image/shoot.png')
+
+# 截取玩家飞机图片
+player = plane_img.subsurface(pygame.Rect(0, 99, 102, 126))
+
+#3. 游戏主循环内需要处理游戏界面的初始化、更新及退出
+while True:
+    # 初始化游戏屏幕
+    screen.fill(0)
+    screen.blit(background, (0, 0))
+    
+    # 显示玩家飞机在位置[200,600]
+    screen.blit(player, [200, 600])
+
+    # 更新游戏屏幕
+    pygame.display.update()
+
+    # 游戏退出事件
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()    
+    
+```
+
+###2. 事件处理
+
+在主循环中处理键盘输入的事件（上下左右按键操作），增加游戏操作交互（玩家飞机的上下左右移动）。
+
+**详细步骤**
+
+1. 获取键盘事件（上下左右按键）
+2. 处理键盘事件（移动飞机的位置）
+3. 将上述步骤代码放入游戏主循环中
+
+**示例代码**
+
+```
+#1. 获取键盘事件（上下左右按键）
+key_pressed = pygame.key.get_pressed()
+
+#2. 处理键盘事件（移动飞机的位置）
+if key_pressed[K_w] or key_pressed[K_UP]:
+    player.moveUp()
+if key_pressed[K_s] or key_pressed[K_DOWN]:
+    player.moveDown()
+if key_pressed[K_a] or key_pressed[K_LEFT]:
+    player.moveLeft()
+if key_pressed[K_d] or key_pressed[K_RIGHT]:
+    player.moveRight()
+
+```
+
+###3. 子弹处理
+
+子弹由玩家飞机发出，并以一定速度向界面上方移动。
+
+**详细步骤**
+
+1. 生成子弹，需要控制发射频率
+2. 以固定速度移动子弹
+3. 移动出屏幕后删除子弹
+4. 敌机被子弹击中效果处理（下一节处理）
+
+**示例代码**
+
+```
+#1. 生成子弹，需要控制发射频率
+# 首先判断玩家飞机没有被击中
+if not player.is_hit:
+    if shoot_frequency % 15 == 0:
+        player.shoot(bullet_img)
+    shoot_frequency += 1
+    if shoot_frequency &gt;= 15:
+        shoot_frequency = 0
+
+for bullet in player.bullets:
+    #2. 以固定速度移动子弹
+    bullet.move()
+    #3. 移动出屏幕后删除子弹
+    if bullet.rect.bottom &lt; 0:
+        player.bullets.remove(bullet)            
+
+# 显示子弹
+player.bullets.draw(screen)
+
+```
+            
+###4. 敌机处理
+
+敌机需要随机在界面上方产生，并以一定速度向下移动。
+
+**详细步骤**
+
+1. 生成敌机，需要控制生成频率
+2. 移动敌机
+3. 敌机与玩家飞机碰撞效果处理
+4. 移动出屏幕后删除敌机
+5. 敌机被子弹击中效果处理
+
+
+**示例代码**
+
+```
+#1. 生成敌机，需要控制生成频率
+if enemy_frequency % 50 == 0:
+    enemy1_pos = [random.randint(0, SCREEN_WIDTH - enemy1_rect.width), 0]
+    enemy1 = Enemy(enemy1_img, enemy1_down_imgs, enemy1_pos)
+    enemies1.add(enemy1)
+enemy_frequency += 1
+if enemy_frequency &gt;= 100:
+    enemy_frequency = 0
+
+
+for enemy in enemies1:
+    #2. 移动敌机
+    enemy.move()
+    #3. 敌机与玩家飞机碰撞效果处理
+    if pygame.sprite.collide_circle(enemy, player):
+        enemies_down.add(enemy)
+        enemies1.remove(enemy)
+        player.is_hit = True
+        break
+    #4. 移动出屏幕后删除飞机    
+    if enemy.rect.top &lt; 0:
+        enemies1.remove(enemy)
+
+#5. 敌机被子弹击中效果处理
+
+# 将被击中的敌机对象添加到击毁敌机 Group 中，用来渲染击毁动画
+enemies1_down = pygame.sprite.groupcollide(enemies1, player.bullets, 1, 1)
+for enemy_down in enemies1_down:
+    enemies_down.add(enemy_down)
+
+# 敌机被子弹击中效果显示
+for enemy_down in enemies_down:
+    if enemy_down.down_index == 0:
+        pass
+    if enemy_down.down_index &gt; 7:
+        enemies_down.remove(enemy_down)
+        score += 1000
+        continue
+    screen.blit(enemy_down.down_imgs[enemy_down.down_index / 2], enemy_down.rect)
+    enemy_down.down_index += 1
+        
+# 显示敌机
+enemies1.draw(screen)
+
+```
+
+###5. 得分显示
+
+在游戏界面固定位置显示消灭了多少目标敌机。
+
+**示例代码**
+
+```
+# 绘制得分
+score_font = pygame.font.Font(None, 36)
+score_text = score_font.render(str(score), True, (128, 128, 128))
+text_rect = score_text.get_rect()
+text_rect.topleft = [10, 10]
+screen.blit(score_text, text_rect)
+
+```
+
+##五、完整代码参考
+
+大家可以按照上述步骤组合出自己的打飞机游戏，也可以参考下列完整代码。
+
+源码实现 Fork 自 Kill-Console 写的[PythonShootGame](https://github.com/Kill-Console/PythonShootGame)并稍作修改，修改后的代码也开源到 github 上，可以使用下列命令获取：
+
+```sh
+$ git clone https://github.com/shiyanlou/PythonShootGame
+```
+
+
+```python
+# -*- coding: utf-8 -*-
+import pygame
+from sys import exit
+from pygame.locals import *
+import random
+
+# 设置游戏屏幕大小
+SCREEN_WIDTH = 480
+SCREEN_HEIGHT = 800
+
+# 子弹类
+class Bullet(pygame.sprite.Sprite):
+    def __init__(self, bullet_img, init_pos):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = bullet_img
+        self.rect = self.image.get_rect()
+        self.rect.midbottom = init_pos
+        self.speed = 10
+
+    def move(self):
+        self.rect.top -= self.speed
+
+# 玩家飞机类
+class Player(pygame.sprite.Sprite):
+    def __init__(self, plane_img, player_rect, init_pos):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = []                                 # 用来存储玩家飞机图片的列表
+        for i in range(len(player_rect)):
+            self.image.append(plane_img.subsurface(player_rect[i]).convert_alpha())
+        self.rect = player_rect[0]                      # 初始化图片所在的矩形
+        self.rect.topleft = init_pos                    # 初始化矩形的左上角坐标
+        self.speed = 8                                  # 初始化玩家飞机速度，这里是一个确定的值
+        self.bullets = pygame.sprite.Group()            # 玩家飞机所发射的子弹的集合
+        self.img_index = 0                              # 玩家飞机图片索引
+        self.is_hit = False                             # 玩家是否被击中
+
+    # 发射子弹
+    def shoot(self, bullet_img):
+        bullet = Bullet(bullet_img, self.rect.midtop)
+        self.bullets.add(bullet)
+
+    # 向上移动，需要判断边界
+    def moveUp(self):
+        if self.rect.top &lt;= 0:
+            self.rect.top = 0
+        else:
+            self.rect.top -= self.speed
+
+    # 向下移动，需要判断边界
+    def moveDown(self):
+        if self.rect.top &gt;= SCREEN_HEIGHT - self.rect.height:
+            self.rect.top = SCREEN_HEIGHT - self.rect.height
+        else:
+            self.rect.top += self.speed
+
+    # 向左移动，需要判断边界
+    def moveLeft(self):
+        if self.rect.left &lt;= 0:
+            self.rect.left = 0
+        else:
+            self.rect.left -= self.speed
+
+    # 向右移动，需要判断边界        
+    def moveRight(self):
+        if self.rect.left &gt;= SCREEN_WIDTH - self.rect.width:
+            self.rect.left = SCREEN_WIDTH - self.rect.width
+        else:
+            self.rect.left += self.speed
+
+# 敌机类
+class Enemy(pygame.sprite.Sprite):
+    def __init__(self, enemy_img, enemy_down_imgs, init_pos):
+       pygame.sprite.Sprite.__init__(self)
+       self.image = enemy_img
+       self.rect = self.image.get_rect()
+       self.rect.topleft = init_pos
+       self.down_imgs = enemy_down_imgs
+       self.speed = 2
+       self.down_index = 0
+
+    # 敌机移动，边界判断及删除在游戏主循环里处理
+    def move(self):
+        self.rect.top += self.speed
+
+# 初始化 pygame
+pygame.init()
+
+# 设置游戏界面大小、背景图片及标题
+# 游戏界面像素大小
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+# 游戏界面标题
+pygame.display.set_caption('飞机大战')
+
+# 背景图
+background = pygame.image.load('resources/image/background.png').convert()
+
+# Game Over 的背景图
+game_over = pygame.image.load('resources/image/gameover.png')
+
+# 飞机及子弹图片集合
+plane_img = pygame.image.load('resources/image/shoot.png')
+
+# 设置玩家飞机不同状态的图片列表，多张图片展示为动画效果
+player_rect = []
+player_rect.append(pygame.Rect(0, 99, 102, 126))        # 玩家飞机图片
+player_rect.append(pygame.Rect(165, 360, 102, 126))
+player_rect.append(pygame.Rect(165, 234, 102, 126))     # 玩家爆炸图片
+player_rect.append(pygame.Rect(330, 624, 102, 126))
+player_rect.append(pygame.Rect(330, 498, 102, 126))
+player_rect.append(pygame.Rect(432, 624, 102, 126))
+player_pos = [200, 600]
+player = Player(plane_img, player_rect, player_pos)
+
+# 子弹图片
+bullet_rect = pygame.Rect(1004, 987, 9, 21)
+bullet_img = plane_img.subsurface(bullet_rect)
+
+# 敌机不同状态的图片列表，多张图片展示为动画效果
+enemy1_rect = pygame.Rect(534, 612, 57, 43)
+enemy1_img = plane_img.subsurface(enemy1_rect)
+enemy1_down_imgs = []
+enemy1_down_imgs.append(plane_img.subsurface(pygame.Rect(267, 347, 57, 43)))
+enemy1_down_imgs.append(plane_img.subsurface(pygame.Rect(873, 697, 57, 43)))
+enemy1_down_imgs.append(plane_img.subsurface(pygame.Rect(267, 296, 57, 43)))
+enemy1_down_imgs.append(plane_img.subsurface(pygame.Rect(930, 697, 57, 43)))
+
+enemies1 = pygame.sprite.Group()
+
+# 存储被击毁的飞机，用来渲染击毁动画
+enemies_down = pygame.sprite.Group()
+
+# 初始化射击及敌机移动频率
+shoot_frequency = 0
+enemy_frequency = 0
+
+# 玩家飞机被击中后的效果处理
+player_down_index = 16
+
+# 初始化分数
+score = 0
+
+# 游戏循环帧率设置
+clock = pygame.time.Clock()
+
+# 判断游戏循环退出的参数
+running = True
+
+# 游戏主循环
+while running:
+    # 控制游戏最大帧率为 60
+    clock.tick(60)
+
+    # 生成子弹，需要控制发射频率
+    # 首先判断玩家飞机没有被击中
+    if not player.is_hit:
+        if shoot_frequency % 15 == 0:
+            player.shoot(bullet_img)
+        shoot_frequency += 1
+        if shoot_frequency &gt;= 15:
+            shoot_frequency = 0
+
+    # 生成敌机，需要控制生成频率
+    if enemy_frequency % 50 == 0:
+        enemy1_pos = [random.randint(0, SCREEN_WIDTH - enemy1_rect.width), 0]
+        enemy1 = Enemy(enemy1_img, enemy1_down_imgs, enemy1_pos)
+        enemies1.add(enemy1)
+    enemy_frequency += 1
+    if enemy_frequency &gt;= 100:
+        enemy_frequency = 0
+
+    for bullet in player.bullets:
+        # 以固定速度移动子弹
+        bullet.move()
+        # 移动出屏幕后删除子弹
+        if bullet.rect.bottom &lt; 0:
+            player.bullets.remove(bullet)   
+
+    for enemy in enemies1:
+        #2. 移动敌机
+        enemy.move()
+        #3. 敌机与玩家飞机碰撞效果处理
+        if pygame.sprite.collide_circle(enemy, player):
+            enemies_down.add(enemy)
+            enemies1.remove(enemy)
+            player.is_hit = True
+            break
+        #4. 移动出屏幕后删除飞机    
+        if enemy.rect.top &lt; 0:
+            enemies1.remove(enemy)
+
+    #敌机被子弹击中效果处理
+    # 将被击中的敌机对象添加到击毁敌机 Group 中，用来渲染击毁动画
+    enemies1_down = pygame.sprite.groupcollide(enemies1, player.bullets, 1, 1)
+    for enemy_down in enemies1_down:
+        enemies_down.add(enemy_down)
+
+    # 绘制背景
+    screen.fill(0)
+    screen.blit(background, (0, 0))
+
+    # 绘制玩家飞机
+    if not player.is_hit:
+        screen.blit(player.image[player.img_index], player.rect)
+        # 更换图片索引使飞机有动画效果
+        player.img_index = shoot_frequency / 8
+    else:
+        # 玩家飞机被击中后的效果处理
+        player.img_index = player_down_index / 8
+        screen.blit(player.image[player.img_index], player.rect)
+        player_down_index += 1
+        if player_down_index &gt; 47:
+            # 击中效果处理完成后游戏结束
+            running = False
+
+    # 敌机被子弹击中效果显示
+    for enemy_down in enemies_down:
+        if enemy_down.down_index == 0:
+            pass
+        if enemy_down.down_index &gt; 7:
+            enemies_down.remove(enemy_down)
+            score += 1000
+            continue
+        screen.blit(enemy_down.down_imgs[enemy_down.down_index / 2], enemy_down.rect)
+        enemy_down.down_index += 1
+
+    # 显示子弹
+    player.bullets.draw(screen)
+    # 显示敌机
+    enemies1.draw(screen)
+
+    # 绘制得分
+    score_font = pygame.font.Font(None, 36)
+    score_text = score_font.render(str(score), True, (128, 128, 128))
+    text_rect = score_text.get_rect()
+    text_rect.topleft = [10, 10]
+    screen.blit(score_text, text_rect)
+
+    # 更新屏幕
+    pygame.display.update()
+
+    # 处理游戏退出
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+            
+    # 获取键盘事件（上下左右按键）
+    key_pressed = pygame.key.get_pressed()
+
+    # 处理键盘事件（移动飞机的位置）
+    if key_pressed[K_w] or key_pressed[K_UP]:
+        player.moveUp()
+    if key_pressed[K_s] or key_pressed[K_DOWN]:
+        player.moveDown()
+    if key_pressed[K_a] or key_pressed[K_LEFT]:
+        player.moveLeft()
+    if key_pressed[K_d] or key_pressed[K_RIGHT]:
+        player.moveRight()
+
+# 游戏 Game Over 后显示最终得分
+font = pygame.font.Font(None, 48)
+text = font.render('Score: '+ str(score), True, (255, 0, 0))
+text_rect = text.get_rect()
+text_rect.centerx = screen.get_rect().centerx
+text_rect.centery = screen.get_rect().centery + 24
+screen.blit(game_over, (0, 0))
+screen.blit(text, text_rect)
+
+# 显示得分并处理游戏退出
+while 1:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+    pygame.display.update()
+
+```
+
+</textarea>
+<nav>
+    <ul class="pager">
+        
+        
+    </ul>
+</nav>
+
+
+    
+    <div class="vip-banner">
+        
+        动手实践是学习 IT 技术最有效的方式！
+        
+        
+
+        
+
+        
+            
+        
+
+        
+            
+        
+        <a class="btn   lab-item-start-newlab" data-mobile-url="/courses/document/221" data-url="/courses/start/221" data-next="/courses/running">开始实验</a>
+    </div>
+    
+
+
+        </div>
+        <div class="col-md-3 layout-side">
+            
+    <div class="side-image side-image-pc">
+        <img src="./pygame开发打飞机游戏 - 实验楼_files/ncn49.jpg">
+    </div>
+    
+    
+
+
+    
+        
+<div class="sidebox mooc-teacher">
+    <div class="sidebox-header mooc-header">
+        <h4 class="sidebox-title">课程教师</h4>
+    </div>
+    <div class="sidebox-body mooc-content">
+        <a href="https://www.shiyanlou.com/user/20417" target="_blank">
+            <img src="./pygame开发打飞机游戏 - 实验楼_files/python.png">
+        </a>
+        <div class="mooc-info">
+            <div class="name"><strong>小码农</strong> </div>
+            
+            <div class="courses">共发布过<strong>10</strong>门课程</div>
+        </div>
+        <div class="mooc-extra-info">
+            <div class="word long-paragraph">
+                曾就职于Intel，高级研发工程师。对Linux及Python技术有多年实践经验。
+            </div>
+        </div>
+    </div>
+    <div class="sidebox-footer mooc-footer">
+        <a href="https://www.shiyanlou.com/teacher/20417" target="_blank">查看老师的所有课程 &gt;</a>
+    </div>
+</div>
+
+    
+    
+    
+    
+    <div class="side-image">
+    <a href="https://www.shiyanlou.com/vip" target="_blank">
+        <img src="./pygame开发打飞机游戏 - 实验楼_files/banner-vip.png">
+    </a>
+</div>
+    
+    
+    
+    
+    <div class="sidebox pre-course">
+        <div class="sidebox-header">
+            <h4 class="sidebox-title">前置课程</h4>
+        </div>
+        <div class="sidebox-body course-content">
+            
+            <a href="https://www.shiyanlou.com/courses/3">Python编程语言</a>
+            
+            <a href="https://www.shiyanlou.com/courses/214">Python快速教程</a>
+            
+        </div>
+    </div>
+    
+    
+    
+
+        </div>
+    </div>
+</div>
+
+
+	<div class="modal fade" id="invite-user" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">邀请好友，双方都可获赠实验豆！</h4>
+				</div>
+				<div class="modal-body">
+                    
+					<div class="form-label">
+                        分享专属链接给好友，或粘贴到QQ群/微博/论坛，好友注册后，您和好友将分别获赠3个实验豆！
+                    </div>
+					<input type="text" id="bstext" class="form-invite" value="https://www.shiyanlou.com/register?inviter=NTY0MzE5MTk4NzI3">              
+                    
+					<div id="msg-modal"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	
+    
+        
+        
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 clearfix footer-col">
+                <img src="./pygame开发打飞机游戏 - 实验楼_files/logo_03.png">
+                <div class="footer-slogan">动手做实验，轻松学编程</div>
+                <div class="col-xs-2">
+                    <div class="social-item footer-weixin-item">
+                        <i class="fa fa-weixin"></i>
+                        <div class="footer-weixin">
+                            <img src="./pygame开发打飞机游戏 - 实验楼_files/footer-weixin.png">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="social-item footer-qq-item" data-original-title="" title="">
+                        <i class="fa fa-qq"></i>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="social-item footer-weibo-item">
+                        <a href="http://weibo.com/shiyanlou2013" target="_blank">
+                            <i class="fa fa-weibo"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-3 col-md-2 footer-col">
+                <div class="col-title">公司</div>
+                <a href="https://www.shiyanlou.com/aboutus" target="_blank">关于我们</a><br>
+                <a href="https://www.shiyanlou.com/contact" target="_blank">联系我们</a><br>
+                <a href="http://www.simplecloud.cn/jobs.html" target="_blank">加入我们</a><br>
+                <a href="https://blog.shiyanlou.com/" target="_blank">技术博客</a><br>
+            </div>
+            <div class="col-xs-6 col-sm-3 col-md-2 footer-col">
+                <div class="col-title">合作</div>
+                <a href="https://www.shiyanlou.com/contribute" target="_blank">我要投稿</a><br>
+                <a href="https://www.shiyanlou.com/labs" target="_blank">教师合作</a><br>
+                <a href="https://www.shiyanlou.com/edu/" target="_blank">高校合作</a><br>
+                <a href="https://www.shiyanlou.com/friends" target="_blank">友情链接</a>
+            </div>
+            <div class="col-xs-6 col-sm-3 col-md-2 footer-col">
+                <div class="col-title">服务</div>
+                <a href="https://www.shiyanlou.com/bootcamp/" target="_blank">实战训练营</a><br>
+                <a href="https://www.shiyanlou.com/vip" target="_blank">会员服务</a><br>
+                <a href="https://www.shiyanlou.com/courses/reports" target="_blank">实验报告</a><br>
+                <a href="https://www.shiyanlou.com/questions/?tag=%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98" target="_blank">常见问题</a><br>
+                <a href="https://www.shiyanlou.com/privacy" target="_blank">隐私条款</a>
+            </div>
+            <div class="col-xs-6 col-sm-3 col-md-2 footer-col">
+                <div class="col-title">学习路径</div>
+                <a href="https://www.shiyanlou.com/paths/python" target="_blank">Python学习路径</a><br>
+                <a href="https://www.shiyanlou.com/paths/linuxdev" target="_blank">Linux学习路径</a><br>
+                <a href="https://www.shiyanlou.com/paths/bigdata" target="_blank">大数据学习路径</a><br>
+                <a href="https://www.shiyanlou.com/paths/java" target="_blank">Java学习路径</a><br>
+                <a href="https://www.shiyanlou.com/paths/php" target="_blank">PHP学习路径</a><br>
+                <a href="https://www.shiyanlou.com/paths/" ,="" target="_blank">全部</a>
+            </div>
+        </div>
+    </div>
+    <div class="text-center copyright">
+        <span>Copyright @2013-2016 实验楼在线教育</span>
+        <span class="ver-line"> | </span>
+        <a href="http://www.miibeian.gov.cn/" target="_blank">蜀ICP备13019762号</a>
+        <script charset="utf-8" src="./pygame开发打飞机游戏 - 实验楼_files/v.js.下载"></script><script src="./pygame开发打飞机游戏 - 实验楼_files/hm.js.下载"></script><script type="text/javascript">
+            var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+            document.write(unescape("%3Cspan id='cnzz_stat_icon_5902315'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/stat.php%3Fid%3D5902315' type='text/javascript'%3E%3C/script%3E"));
+        </script><span id="cnzz_stat_icon_5902315"><a href="http://www.cnzz.com/stat/website.php?web_id=5902315" target="_blank" title="站长统计">站长统计</a></span><script src="./pygame开发打飞机游戏 - 实验楼_files/stat.php" type="text/javascript"></script><script src="./pygame开发打飞机游戏 - 实验楼_files/core.php" charset="utf-8" type="text/javascript"></script>
+        <script>
+            var _hmt = _hmt || [];
+            (function() {
+             var hm = document.createElement("script");
+             hm.src = "//hm.baidu.com/hm.js?6eb47a3aeda6ea31fa53985fdfdc78e8";
+             var s = document.getElementsByTagName("script")[0];
+             s.parentNode.insertBefore(hm, s);
+             })();
+        </script>
+    </div>
+</div>
+
+        
+    
+	
+
+	<div class="modal fade" id="flash-message" tabindex="-1" role="dialog">
+		<div class="modal-dialog" rolw="document">
+		</div>
+	</div>
+	<div class="modal fade" id="modal-message" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">注意</h4>
+				</div>
+				<div class="modal-body">
+				</div>
+				<div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary confirm" data-dismiss="modal">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    
+<div class="modal fade" id="start-newlab">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3>开始新实验</h3>
+			</div>
+			<div class="modal-body">
+                <p>一个实验正在进行，是否停止它，开始新实验？</p>
+			</div>
+			<div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                <a class="btn btn-primary start-newlab-confirm">确定</a>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="start-evaluation-course">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3>开始评估课实验</h3>
+			</div>
+			<div class="modal-body">
+                <div>
+                    <p>为了让评估结果更加准确，请注意以下操作：</p>
+                    <ul>
+                        <li>完成实验后点击「停止实验」按钮</li>
+                        <li>将代码提交到代码库</li>
+                        <li>尽可能详尽的撰写实验报告</li>
+                        <li>尽可能在实验操作的关键步骤截图</li>
+                        <li>尽可能减少无用操作</li>
+                        <li>尽可能高效的利用内存/CPU资源</li>
+                    </ul>
+                    <p>评估课还在不断完善中，我们真挚希望你能通过我们提供的这个平台，找到更好的发展机会。</p>
+                </div>
+                <br>
+                <div class="start-newlab"></div>
+			</div>
+			<div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                <a class="btn btn-primary start-confirm">确定</a>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="vip-startlab-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3>开始实验</h3>
+			</div>
+			<div class="modal-body">
+                <div class="start-newlab"></div>
+                <br>
+                <div class="text-center vip-vm">
+                    <a class="btn btn-default btn-lg newvm">创建新环境</a>
+					
+                </div>
+                <br>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+
+
+	
+		
+			
+		
+	
+
+    
+
+    <div id="base-data" data-flash="false" data-csrf-token="/questions/form" data-is-login="true" data-jwt-token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzaGl5YW5sb3U6d2ViOmFwcCIsInVuYW1lIjoiTGludXhcdTVmMDBcdTUzZDEiLCJ1aWQiOiIxODYwNTIiLCJleHAiOjE0ODE1MjY4NTAsImlhdCI6MTQ4MTQ0MDQ1MH0.KNQbIS30QYlDQi3F02Bk1yJ-m7NpYXIw3qotDoDAkJE" data-user-id="186052" data-is-jwt="true" data-socket-url="wss://comet.shiyanlou.com" data-msg-user="" data-msg-system=""></div>
+
+    <script src="./pygame开发打飞机游戏 - 实验楼_files/lib.js.下载"></script>
+    <script src="./pygame开发打飞机游戏 - 实验楼_files/jquery.min.js.下载"></script>
+    <script src="./pygame开发打飞机游戏 - 实验楼_files/ace.js.下载"></script>
+    <script src="./pygame开发打飞机游戏 - 实验楼_files/aliyun-oss-sdk-4.3.0.min.js.下载"></script>
+    <script src="./pygame开发打飞机游戏 - 实验楼_files/highlight.min.js.下载"></script>
+    <script src="./pygame开发打飞机游戏 - 实验楼_files/jspdf.min.js.下载"></script>
+    <script src="./pygame开发打飞机游戏 - 实验楼_files/plupload.full.min.js.下载"></script>
+    <script src="./pygame开发打飞机游戏 - 实验楼_files/ZeroClipboard.min.js.下载"></script>
+    <script src="./pygame开发打飞机游戏 - 实验楼_files/video.min.js.下载"></script>
+    <script src="./pygame开发打飞机游戏 - 实验楼_files/bootstrap-tour.min.js.下载"></script>
+    <script src="./pygame开发打飞机游戏 - 实验楼_files/bootstrap-table.min.js.下载"></script>
+    <script src="./pygame开发打飞机游戏 - 实验楼_files/bootstrap-table-zh-CN.min.js.下载"></script>
+    <script src="./pygame开发打飞机游戏 - 实验楼_files/bootstrap-table-filter-control.min.js.下载"></script>
+
+    <script src="./pygame开发打飞机游戏 - 实验楼_files/raven.min.js.下载"></script>
+    <script>
+    Raven.config('https://bc3878b7ed0a4468a65390bd79e6e73f@sentry.shiyanlou.com/5', {
+        release: '3.11.28'
+    }).install();
+    </script>
+    
+<div id="jinja-data" data-tencent-labid="[662]" data-course-detail="/courses/49" data-left-time="0" data-course-id="49" data-userlab-id="2768962" data-start-newlab-url="/courses/clear"></div>
+<script src="./pygame开发打飞机游戏 - 实验楼_files/labDoc.js.下载"></script><div style="display: none; position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; background: rgba(0, 0, 0, 0.498039); text-align: center; z-index: 1600;"><i class="fa fa-spinner fa-pulse" style="margin-top: 251.6px; color: rgb(255, 255, 255); font-size: 35px;"></i></div>
+
+
+
+</body></html>
